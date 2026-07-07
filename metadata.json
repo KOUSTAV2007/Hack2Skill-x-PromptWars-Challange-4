@@ -1,0 +1,6 @@
+{
+  "name": "FIFA 2026 Stadium Hub",
+  "description": "An AI-powered, real-time stadium operations and fan experience hub for the FIFA World Cup 2026, supporting crowd management, safety dispatch, navigation, and sustainability.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
