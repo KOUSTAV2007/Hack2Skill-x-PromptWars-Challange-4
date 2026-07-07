@@ -43,4 +43,22 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
   }
+
+  /* SVG Accessibility Focus Indicators */
+  g[role="button"]:focus,
+  g[role="button"]:focus-visible {
+    outline: none;
+  }
+  g[role="button"]:focus path,
+  g[role="button"]:focus-visible path {
+    stroke: #2563eb !important;
+    stroke-width: 3.5px !important;
+    stroke-opacity: 1 !important;
+  }
+  g[role="button"]:focus circle,
+  g[role="button"]:focus-visible circle {
+    stroke: #2563eb !important;
+    stroke-width: 3px !important;
+    stroke-opacity: 1 !important;
+  }
 }

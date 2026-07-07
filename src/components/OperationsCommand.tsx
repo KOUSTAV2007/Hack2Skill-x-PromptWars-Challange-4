@@ -181,7 +181,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
         {/* Dynamic Simulation Controls (Presets) */}
         <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm">
-          <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest mb-2 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-slate-600 uppercase tracking-widest mb-2 flex items-center gap-2">
             <span className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
               <Activity className="w-4 h-4 text-emerald-600" />
             </span>
@@ -194,7 +194,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
           <div role="group" aria-label="Simulation Preset Triggers" className="grid grid-cols-1 gap-2">
             <button
               onClick={() => onTriggerPreset("kickoff")}
-              className="flex items-center justify-between bg-slate-55 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 rounded-2xl p-3.5 text-left transition cursor-pointer"
+              className="flex items-center justify-between bg-slate-50 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 rounded-2xl p-3.5 text-left transition cursor-pointer"
             >
               <div>
                 <span className="text-xs font-bold text-slate-800 block">⚽ Pre-Kickoff Inflow Rush</span>
@@ -205,7 +205,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
             <button
               onClick={() => onTriggerPreset("exodus")}
-              className="flex items-center justify-between bg-slate-55 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 rounded-2xl p-3.5 text-left transition cursor-pointer"
+              className="flex items-center justify-between bg-slate-50 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 rounded-2xl p-3.5 text-left transition cursor-pointer"
             >
               <div>
                 <span className="text-xs font-bold text-slate-800 block">🚨 Final Whistle Exodus</span>
@@ -216,7 +216,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
             <button
               onClick={() => onTriggerPreset("clear")}
-              className="flex items-center justify-between bg-slate-55 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 rounded-2xl p-3.5 text-left transition cursor-pointer"
+              className="flex items-center justify-between bg-slate-50 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 rounded-2xl p-3.5 text-left transition cursor-pointer"
             >
               <div>
                 <span className="text-xs font-bold text-slate-800 block">🔄 Reset to Tranquil Baseline</span>
@@ -232,7 +232,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
       {/* COLUMN 2: ACTIVE ALERTS FEED LIST */}
       <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm flex flex-col justify-between lg:col-span-1 text-slate-800">
         <div>
-          <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest mb-3 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-slate-600 uppercase tracking-widest mb-3 flex items-center gap-2">
             <span className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
               <Users className="w-4 h-4 text-blue-600" />
             </span>
@@ -308,7 +308,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
         {/* Live Gate Entry Managers (At the bottom of feed list) */}
         <div className="border-t border-slate-100 pt-4 mt-4">
-          <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-2">
+          <h4 className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-2">
             Entrances & Wait Times
           </h4>
           <div className="grid grid-cols-2 gap-2">
@@ -320,7 +320,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
                     value={gate.status}
                     onChange={(e) => onUpdateGate(gate.id, { status: e.target.value as any })}
                     aria-label={`Update entrance gate status for ${gate.name}`}
-                    className="text-[9px] bg-white border border-slate-200 text-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-650 p-1 font-bold shadow-sm"
+                    className="text-[9px] bg-white border border-slate-200 text-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 p-1 font-bold shadow-sm"
                   >
                     <option value="open">Open</option>
                     <option value="closed">Closed</option>
@@ -358,7 +358,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
             {/* Standard Operating Procedures Steps list */}
             <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 mb-4 shadow-inner">
-              <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <h4 className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 <Check className="w-3.5 h-3.5 text-blue-500" />
                 Staff SOP Steps
               </h4>
@@ -382,7 +382,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
             {/* Volunteer Coordination Briefing */}
             <div className="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-4 mb-4 shadow-inner">
-              <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <h4 className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <Users className="w-3.5 h-3.5 text-indigo-500" />
                 Volunteer Field Briefing
               </h4>
@@ -393,7 +393,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
             {/* PA Announcement Script */}
             <div className="bg-amber-50/50 border border-amber-100 rounded-2xl p-4 shadow-inner">
-              <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <h4 className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <Volume2 className="w-3.5 h-3.5 text-amber-600" />
                 Broadcast Announcement Script
               </h4>
@@ -411,7 +411,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
         {/* Dynamic Standing Heatmap Quick adjuster for Seating */}
         <div className="border-t border-slate-100 pt-4 mt-6">
-          <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-3">
+          <h4 className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-3">
             Stand Load Factors Heatmap (Click on Map to adjust)
           </h4>
           <div className="grid grid-cols-2 gap-3 text-[10px] font-mono text-slate-600 font-bold">

@@ -156,7 +156,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
         
         {/* Section 1: Wayfinding Core */}
         <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm">
-          <h3 className="text-xs font-bold text-slate-550 uppercase tracking-widest mb-3 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-slate-600 uppercase tracking-widest mb-3 flex items-center gap-2">
             <span className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
               <Compass className="w-4 h-4" />
             </span>
@@ -234,7 +234,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
               </div>
 
               {/* Step By Step Directions */}
-              <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-2">
+              <h4 className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-2">
                 Turn-by-Turn Navigation
               </h4>
               <ul className="space-y-2">
@@ -258,7 +258,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
 
         {/* Section 2: AI Multilingual Guide (Concierge) */}
         <div className="bg-white border border-slate-200 p-6 rounded-3xl flex-1 flex flex-col">
-          <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest mb-2 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-slate-600 uppercase tracking-widest mb-2 flex items-center gap-2">
             <span className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
               <Sparkles className="w-4 h-4" />
             </span>
@@ -332,7 +332,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
                 {aiAnswer}
               </div>
             ) : (
-              <div className="text-center text-slate-400 py-10">
+              <div className="text-center text-slate-600 py-10">
                 <HelpCircle className="w-7 h-7 mx-auto mb-2 text-slate-300" />
                 Type your question or click a prompt above to generate detailed AI stadium responses.
               </div>
@@ -345,7 +345,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
       <div className="bg-white border border-slate-200 p-6 rounded-3xl flex flex-col justify-between shadow-sm text-slate-800">
         <div>
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest flex items-center gap-2">
+            <h3 className="text-xs font-bold text-slate-600 uppercase tracking-widest flex items-center gap-2">
               <span className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
                 <Leaf className="w-4 h-4" />
               </span>
@@ -471,7 +471,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
             </div>
           ) : (
             <div className="text-center p-6 border border-dashed border-slate-200 rounded-2xl bg-slate-50">
-              <CheckCircle className="w-6 h-6 text-slate-400 mx-auto mb-2" />
+              <CheckCircle className="w-6 h-6 text-slate-500 mx-auto mb-2" />
               <p className="text-xs text-slate-500 font-medium">
                 Sorted results, CO2 offsetting numbers, and reward point notifications will render here.
               </p>
@@ -481,7 +481,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
 
         {/* Unlocked Eco-Badges Display */}
         <div className="border-t border-slate-200/60 pt-4 mt-6">
-          <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+          <h4 className="text-[10px] font-bold text-slate-600 uppercase tracking-wider mb-2">
             Your Digital Achievement Badges
           </h4>
           <div className="flex flex-wrap gap-2">
@@ -494,7 +494,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
                 {badge}
               </span>
             ))}
-            <span className="text-[10px] border border-dashed border-slate-200 text-slate-400 px-2.5 py-1 rounded-xl font-semibold">
+            <span className="text-[10px] border border-dashed border-slate-200 text-slate-500 px-2.5 py-1 rounded-xl font-semibold">
               + More Lockable
             </span>
           </div>

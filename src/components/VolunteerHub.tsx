@@ -66,7 +66,7 @@ export const VolunteerHub: React.FC<VolunteerHubProps> = ({
         
         <div className="bg-white border border-slate-200 p-6 rounded-3xl flex-1 flex flex-col justify-between shadow-sm text-slate-800">
           <div>
-            <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest mb-2 flex items-center gap-2">
+            <h3 className="text-xs font-bold text-slate-600 uppercase tracking-widest mb-2 flex items-center gap-2">
               <span className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
                 <Sparkles className="w-4 h-4 text-blue-600" />
               </span>
@@ -135,7 +135,7 @@ export const VolunteerHub: React.FC<VolunteerHubProps> = ({
           {/* AI Guidance output box */}
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 min-h-[180px] text-xs leading-relaxed text-slate-700 font-semibold shadow-inner">
             {isLoadingProtocol ? (
-              <div className="flex flex-col items-center justify-center py-12 text-slate-550 gap-2">
+              <div className="flex flex-col items-center justify-center py-12 text-slate-500 gap-2">
                 <Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
                 <span className="font-mono text-[10px] uppercase tracking-wider animate-pulse">
                   Fulfilling shift guidance query...
@@ -149,7 +149,7 @@ export const VolunteerHub: React.FC<VolunteerHubProps> = ({
                 {aiProtocol}
               </div>
             ) : (
-              <div className="text-center text-slate-400 py-16">
+              <div className="text-center text-slate-600 py-16">
                 <HelpCircle className="w-8 h-8 mx-auto mb-2 text-slate-300" />
                 Input dynamic situations or click quick guidelines above for direct de-escalation scripts.
               </div>
@@ -162,7 +162,7 @@ export const VolunteerHub: React.FC<VolunteerHubProps> = ({
       {/* COLUMN 3: VOLUNTEER SHIFTS BOARD */}
       <div className="bg-white border border-slate-200 p-6 rounded-3xl flex flex-col justify-between lg:col-span-1 shadow-sm text-slate-800">
         <div>
-          <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest mb-2 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-slate-600 uppercase tracking-widest mb-2 flex items-center gap-2">
             <span className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg">
               <Clock className="w-4 h-4 text-indigo-600" />
             </span>
@@ -207,7 +207,7 @@ export const VolunteerHub: React.FC<VolunteerHubProps> = ({
                   </select>
                 </div>
 
-                <div className="flex items-center justify-between text-[9px] font-mono text-slate-400 font-bold border-t border-slate-200/60 pt-2 mt-2">
+                <div className="flex items-center justify-between text-[9px] font-mono text-slate-500 font-bold border-t border-slate-200/60 pt-2 mt-2">
                   <span>Language: {shift.nativeLanguage}</span>
                   <span className="text-yellow-600 flex items-center gap-0.5">
                     <Award className="w-3 h-3" /> Gold Volunteer
@@ -220,7 +220,7 @@ export const VolunteerHub: React.FC<VolunteerHubProps> = ({
 
         {/* Support Call-to-action */}
         <div className="border-t border-slate-200/60 pt-4 mt-6">
-          <div className="flex items-center gap-2.5 bg-red-55 border border-red-100 p-3.5 rounded-2xl text-xs text-slate-700 font-semibold">
+          <div className="flex items-center gap-2.5 bg-red-50 border border-red-100 p-3.5 rounded-2xl text-xs text-slate-700 font-semibold">
             <CheckCircle className="w-4 h-4 text-red-500 shrink-0 animate-pulse" />
             <div>
               <strong className="text-red-700 block font-bold">Emergency line: Dial 911-FIFA</strong>
