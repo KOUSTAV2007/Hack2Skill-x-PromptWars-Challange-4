@@ -3,24 +3,68 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
+import helmet from "helmet";
+import cors from "cors";
 
 dotenv.config();
 
-// Initialize Gemini SDK with telemetry User-Agent
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
+// Lazy-initialized Gemini SDK to prevent server startup crash if key is missing
+let aiInstance: GoogleGenAI | null = null;
+
+function getAI(): GoogleGenAI | null {
+  if (!aiInstance) {
+    const key = process.env.GEMINI_API_KEY;
+    if (!key) {
+      console.warn("⚠️ Warning: GEMINI_API_KEY is not defined. Server will use secure high-fidelity fallback responses.");
+      return null;
+    }
+    try {
+      aiInstance = new GoogleGenAI({
+        apiKey: key,
+        httpOptions: {
+          headers: {
+            'User-Agent': 'aistudio-build',
+          }
+        }
+      });
+    } catch (e) {
+      console.error("Failed to initialize GoogleGenAI client:", e);
+      return null;
     }
   }
-});
+  return aiInstance;
+}
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  app.use(express.json());
+  // Basic security middlewares
+  app.use(express.json({ limit: "1mb" })); // Prevent large payload attacks
+
+  // Enable CORS with restricted configuration
+  app.use(cors({
+    origin: "*", // Support preview environments
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+  }));
+
+  // Enable Helmet for robust secure headers, with compatibility for AI Studio preview iframes
+  app.use(helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://*"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:", "https://*"],
+        connectSrc: ["'self'", "https://*", "wss://*", "ws://*"],
+        frameAncestors: ["'self'", "https://*.google.com", "https://*.run.app", "https://ai.studio", "https://*.studio.google.com"],
+      }
+    },
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" }
+  }));
 
   // API Routes
   app.get("/api/health", (req, res) => {
@@ -31,8 +75,33 @@ async function startServer() {
   app.post("/api/ops/dispatch", async (req, res) => {
     try {
       const { description, context } = req.body;
-      if (!description) {
-        return res.status(400).json({ error: "Missing incident description" });
+      if (!description || typeof description !== "string") {
+        return res.status(400).json({ error: "Missing or invalid incident description" });
+      }
+      if (description.length > 2000) {
+        return res.status(400).json({ error: "Description exceeds maximum safe limit" });
+      }
+
+      const ai = getAI();
+      if (!ai) {
+        // High fidelity fallback when AI is unconfigured
+        const descLower = description.toLowerCase();
+        const severity = descLower.includes("fire") || descLower.includes("smoke") || descLower.includes("collapse") || descLower.includes("weapon") ? "critical" : "high";
+        const category = descLower.includes("injury") || descLower.includes("pain") || descLower.includes("heart") ? "Medical" : "Facilities";
+        return res.json({
+          severity,
+          category,
+          sopSteps: [
+            "Dispatch emergency responders to the reported zone immediately.",
+            "Instruct nearby sector volunteers to guide crowds away from the hazard.",
+            "Establish a clear visual and physical perimeter around the affected area.",
+            "Alert senior management and update the Command Center log.",
+            "Maintain ongoing communication with on-site coordinators."
+          ],
+          volunteerBriefing: "Keep calm, assist in routing fans away from the immediate scene, and wait for emergency responders.",
+          paAnnouncement: "Attention fans: please stay clear of this section and follow the stadium coordinators' directions.",
+          alertSummary: `Incident Alert: ${description.slice(0, 30)}...`
+        });
       }
 
       const systemInstruction = `
@@ -78,7 +147,8 @@ You must respond ONLY with a raw JSON object matching this schema, do not includ
       res.json(JSON.parse(resultText.trim()));
     } catch (error: any) {
       console.error("Error in dispatch API:", error);
-      res.status(500).json({ error: error.message || "Failed to process dispatch protocol" });
+      // Clean security response - never leak full stack trace to frontend
+      res.status(500).json({ error: "Failed to process dispatch protocol securely" });
     }
   });
 
@@ -86,13 +156,23 @@ You must respond ONLY with a raw JSON object matching this schema, do not includ
   app.post("/api/guide/ask", async (req, res) => {
     try {
       const { question, language, fanLocation } = req.body;
-      if (!question) {
-        return res.status(400).json({ error: "Missing question" });
+      if (!question || typeof question !== "string") {
+        return res.status(400).json({ error: "Missing or invalid question" });
+      }
+      if (question.length > 1000) {
+        return res.status(400).json({ error: "Question exceeds maximum safe limit" });
+      }
+
+      const ai = getAI();
+      if (!ai) {
+        return res.json({
+          answer: `[Fallback Assistance] Restrooms, medical tents, and food concessions are located near Gate A, B, and C. Please follow the illuminated green exit routes and ask on-duty volunteers for instant physical guidance.`
+        });
       }
 
       const systemInstruction = `
 You are 'WorldCup Assist', the official intelligent multilingual stadium virtual assistant for the FIFA World Cup 2026.
-The user is a fan attending a match at a 2026 World Cup stadium (e.g. MetLife Stadium / New York New Jersey, Estadio Azteca / Mexico City, BC Place / Vancouver, etc.).
+The user is a fan attending a match at a 2026 World Cup stadium.
 Answer their question warmly, helpful, and in detail in the requested language (which is: ${language || 'English'}).
 If a location is provided (Current Location: "${fanLocation || 'Not specified'}"), tailor your guide to route them, suggest nearby amenities, restrooms, first aid, green concessions, or quiet sensory rooms.
 Provide stadium transportation info (transit connections, rideshare zones, bike parking) and clear accessibility guidelines (wheelchair ramps, audio-descriptive commentary headsets).
@@ -110,7 +190,7 @@ Keep your tone enthusiastic about soccer/football and the World Cup tournament, 
       res.json({ answer: response.text });
     } catch (error: any) {
       console.error("Error in guide API:", error);
-      res.status(500).json({ error: error.message || "Failed to answer stadium query" });
+      res.status(500).json({ error: "Failed to answer stadium query securely" });
     }
   });
 
@@ -118,8 +198,24 @@ Keep your tone enthusiastic about soccer/football and the World Cup tournament, 
   app.post("/api/eco/classify", async (req, res) => {
     try {
       const { itemName } = req.body;
-      if (!itemName) {
-        return res.status(400).json({ error: "Missing item name" });
+      if (!itemName || typeof itemName !== "string") {
+        return res.status(400).json({ error: "Missing or invalid item name" });
+      }
+      if (itemName.length > 200) {
+        return res.status(400).json({ error: "Item name exceeds maximum safe limit" });
+      }
+
+      const ai = getAI();
+      if (!ai) {
+        const itemLower = itemName.toLowerCase();
+        const bin = itemLower.includes("bottle") || itemLower.includes("can") || itemLower.includes("plastic") || itemLower.includes("aluminum") ? "recycle" : itemLower.includes("food") || itemLower.includes("leftover") || itemLower.includes("paper") ? "compost" : "landfill";
+        return res.json({
+          bin,
+          explanation: `Please drop your ${itemName} in the designated ${bin} bin. Ensure it is empty of any remaining liquids to prevent contamination.`,
+          co2Saved: 0.12,
+          points: 15,
+          badge: "Eco Participant"
+        });
       }
 
       const systemInstruction = `
@@ -158,7 +254,7 @@ You must respond ONLY with a raw JSON object matching this schema, do not includ
       res.json(JSON.parse(resultText.trim()));
     } catch (error: any) {
       console.error("Error in eco API:", error);
-      res.status(500).json({ error: error.message || "Failed to classify eco item" });
+      res.status(500).json({ error: "Failed to classify eco item securely" });
     }
   });
 

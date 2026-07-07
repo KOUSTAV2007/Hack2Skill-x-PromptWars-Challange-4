@@ -162,7 +162,7 @@ export default function App() {
 
   const averageWait = Math.round(gates.reduce((acc, g) => acc + g.estimatedWaitTime, 0) / gates.length);
   const activeAlertsCount = incidents.filter(i => i.status === "active").length;
-  const peakSectorLoad = Math.max(...Object.values(sectorLoads));
+  const peakSectorLoad = Math.max(...Object.values(sectorLoads).map(val => Number(val) || 0));
   const activeStaffCount = shifts.filter(s => s.status === "on-duty").length;
 
   return (

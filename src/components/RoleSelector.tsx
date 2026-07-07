@@ -41,7 +41,7 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({ currentRole, onChang
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div role="tablist" aria-label="Stadium Portal Roles" className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
       {roles.map(role => {
         const Icon = role.icon;
         const isActive = currentRole === role.id;
@@ -49,8 +49,11 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({ currentRole, onChang
         return (
           <button
             key={role.id}
+            role="tab"
+            aria-selected={isActive}
+            aria-label={`${role.title} Portal`}
             onClick={() => onChangeRole(role.id)}
-            className={`relative flex flex-col items-start p-5 rounded-3xl border text-left transition-all duration-300 cursor-pointer ${
+            className={`relative flex flex-col items-start p-5 rounded-3xl border text-left transition-all duration-300 cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 outline-none ${
               isActive 
                 ? `${role.color} border-2 scale-[1.01] shadow-lg` 
                 : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50 shadow-sm"
@@ -62,7 +65,7 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({ currentRole, onChang
             </span>
 
             {/* Icon Wrapper */}
-            <div className={`p-3 rounded-xl mb-4 ${isActive ? role.iconColor : "bg-slate-100 text-slate-400"}`}>
+            <div className={`p-3 rounded-xl mb-4 ${isActive ? role.iconColor : "bg-slate-100 text-slate-500"}`}>
               <Icon className="w-5 h-5" />
             </div>
 
@@ -70,7 +73,7 @@ export const RoleSelector: React.FC<RoleSelectorProps> = ({ currentRole, onChang
             <h3 className={`text-sm font-bold mb-1 ${isActive ? "text-slate-900" : "text-slate-800"}`}>
               {role.title}
             </h3>
-            <p className={`text-xs leading-relaxed ${isActive ? "text-slate-700 font-medium" : "text-slate-500"}`}>
+            <p className={`text-xs leading-relaxed ${isActive ? "text-slate-800 font-medium" : "text-slate-600 font-medium"}`}>
               {role.description}
             </p>
           </button>

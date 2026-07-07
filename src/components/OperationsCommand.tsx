@@ -98,38 +98,40 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
         
         {/* Incident Reporter & GenAI SOP Trigger */}
         <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-slate-600 uppercase tracking-widest mb-2 flex items-center gap-2">
             <span className="p-1.5 bg-red-50 text-red-500 rounded-lg">
               <ShieldAlert className="w-4 h-4 text-red-600 animate-pulse" />
             </span>
             AI Incident Dispatch
           </h3>
-          <p className="text-xs text-slate-500 font-medium mb-4">
+          <p className="text-xs text-slate-700 font-semibold mb-4">
             Type or voice-log a stadium issue (e.g., slip, fire hazard, elevator malfunction) to generate standard operating protocols instantly via Gemini.
           </p>
 
           <form onSubmit={handleDispatchSOP} className="space-y-4">
             <div>
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label htmlFor="reporter-name" className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                 Your Reporter Name / Role
               </label>
               <input
+                id="reporter-name"
                 type="text"
                 value={reporterName}
                 onChange={(e) => setReporterName(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-bold focus:outline-none focus:border-red-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-bold focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-600"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label htmlFor="reported-location" className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                 Stadium Sector Location
               </label>
               <select
+                id="reported-location"
                 value={reportedLocation}
                 onChange={(e) => setReportedLocation(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-bold focus:outline-none focus:border-red-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-bold focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-600"
               >
                 <option value="Gate A (Main Entrance)">Gate A (Main Entrance)</option>
                 <option value="Gate B (South Entrance)">Gate B (South Entrance)</option>
@@ -143,15 +145,16 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label htmlFor="incident-description" className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                 Describe the Incident
               </label>
               <textarea
+                id="incident-description"
                 placeholder="What occurred? (e.g. 'A small kitchen smoke alert triggered in Concession 4, fans panic-exiting Section 102')"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-semibold focus:outline-none focus:border-red-500 placeholder-slate-400"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-semibold focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-600 placeholder-slate-400"
                 required
               />
             </div>

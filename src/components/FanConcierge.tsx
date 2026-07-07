@@ -156,25 +156,26 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
         
         {/* Section 1: Wayfinding Core */}
         <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-slate-550 uppercase tracking-widest mb-3 flex items-center gap-2">
             <span className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
               <Compass className="w-4 h-4" />
             </span>
             Stadium Route Wayfinding
           </h3>
-          <p className="text-xs text-slate-500 font-medium mb-4">
+          <p className="text-xs text-slate-700 font-semibold mb-4">
             Select a start and destination pin on the live map or use the dropdowns below to draw your walking path.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <div>
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label htmlFor="start-point-select" className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                 Your Start Point
               </label>
               <select
+                id="start-point-select"
                 value={selectedStartNodeId}
                 onChange={(e) => onSelectNode(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-bold focus:outline-none focus:border-blue-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-bold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-600 focus:ring-offset-1"
               >
                 <option value="">-- Click on Map or Choose --</option>
                 {STADIUM_NODES.map(node => (
@@ -186,10 +187,11 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+              <label htmlFor="destination-select" className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-1">
                 Your Destination
               </label>
               <select
+                id="destination-select"
                 value={selectedEndNodeId}
                 onChange={(e) => {
                   const node = STADIUM_NODES.find(n => n.id === e.target.value);
@@ -197,7 +199,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
                     onSelectNode(node.id);
                   }
                 }}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-bold focus:outline-none focus:border-blue-500"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-bold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-600 focus:ring-offset-1"
               >
                 <option value="">-- Click on Map or Choose --</option>
                 {STADIUM_NODES.map(node => (
@@ -292,16 +294,18 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
           <div className="flex gap-2 mb-4">
             <input
               type="text"
+              aria-label="Ask AI Multilingual Concierge Question"
               placeholder="Ask anything (e.g., 'Do green food concession stands take cash?')"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAskConcierge()}
-              className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 font-semibold focus:outline-none focus:border-blue-500 placeholder-slate-400"
+              className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-600 focus:ring-offset-1 placeholder-slate-400"
             />
             <button
               onClick={() => handleAskConcierge()}
               disabled={isAiLoading || !question.trim()}
-              className="bg-blue-600 hover:bg-blue-500 disabled:bg-slate-100 text-white rounded-xl p-3 px-4 transition flex items-center justify-center cursor-pointer shadow-sm"
+              aria-label="Submit Question"
+              className="bg-blue-600 hover:bg-blue-500 disabled:bg-slate-100 text-white rounded-xl p-3 px-4 transition flex items-center justify-center cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
               {isAiLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -365,7 +369,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
 
           {/* Quick Select Predefined Item */}
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-5 shadow-inner">
-            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+            <label htmlFor="custom-eco-input" className="block text-[10px] font-bold text-slate-700 uppercase tracking-wider mb-2">
               Select Trash Item to Sort
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-4">
@@ -376,7 +380,8 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
                     setSelectedEcoItemId(item.id);
                     setCustomEcoItemName("");
                   }}
-                  className={`text-[10px] border p-2.5 rounded-xl text-left transition cursor-pointer ${
+                  aria-label={`Select item ${item.displayName}`}
+                  className={`text-[10px] border p-2.5 rounded-xl text-left transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 ${
                     selectedEcoItemId === item.id && !customEcoItemName
                       ? "bg-emerald-50 border-emerald-400 text-emerald-950 font-bold"
                       : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
@@ -388,15 +393,17 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
               ))}
             </div>
 
-            <div className="text-center text-xs text-slate-400 my-2 font-bold uppercase tracking-wider">-- OR Type Custom Item --</div>
+            <div className="text-center text-xs text-slate-500 my-2 font-bold uppercase tracking-wider">-- OR Type Custom Item --</div>
 
             {/* Custom trash item input */}
             <input
+              id="custom-eco-input"
               type="text"
+              aria-label="Or enter custom trash item name"
               placeholder="e.g. Cardboard pizza box, Leftover hot dog bun..."
               value={customEcoItemName}
               onChange={(e) => setCustomEcoItemName(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-semibold focus:outline-none focus:border-emerald-500 placeholder-slate-400"
+              className="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-semibold focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-600 placeholder-slate-400"
             />
           </div>
 
