@@ -66,13 +66,13 @@ export const VolunteerHub: React.FC<VolunteerHubProps> = ({
         
         <div className="bg-white border border-slate-200 p-6 rounded-3xl flex-1 flex flex-col justify-between shadow-sm text-slate-800">
           <div>
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+            <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest mb-2 flex items-center gap-2">
               <span className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
                 <Sparkles className="w-4 h-4 text-blue-600" />
               </span>
               Volunteer AI De-escalation & Translation Guide
             </h3>
-            <p className="text-xs text-slate-500 font-medium mb-4">
+            <p className="text-xs text-slate-700 font-semibold mb-4">
               Access real-time guidance on lost companions, seat conflicts, or custom translator phrases supported by Gemini.
             </p>
 
@@ -110,16 +110,18 @@ export const VolunteerHub: React.FC<VolunteerHubProps> = ({
             <div className="flex gap-2 mb-4">
               <input
                 type="text"
+                aria-label="Type dynamic field issue for volunteer guidance"
                 placeholder="Type dynamic field issue (e.g., 'Angry fan is demanding refunds because gate was closed early')"
                 value={scenarioQuery}
                 onChange={(e) => setScenarioQuery(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleGetGuidance()}
-                className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 font-semibold focus:outline-none focus:border-blue-500 placeholder-slate-400"
+                className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-800 font-semibold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-600 focus:ring-offset-1 placeholder-slate-400"
               />
               <button
                 onClick={() => handleGetGuidance()}
                 disabled={isLoadingProtocol || !scenarioQuery.trim()}
-                className="bg-blue-600 hover:bg-blue-500 disabled:bg-slate-100 text-white rounded-xl p-3 px-4 transition flex items-center justify-center cursor-pointer shadow-sm"
+                aria-label="Submit scenario to AI Guide"
+                className="bg-blue-600 hover:bg-blue-500 disabled:bg-slate-100 text-white rounded-xl p-3 px-4 transition flex items-center justify-center cursor-pointer shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
               >
                 {isLoadingProtocol ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -160,13 +162,13 @@ export const VolunteerHub: React.FC<VolunteerHubProps> = ({
       {/* COLUMN 3: VOLUNTEER SHIFTS BOARD */}
       <div className="bg-white border border-slate-200 p-6 rounded-3xl flex flex-col justify-between lg:col-span-1 shadow-sm text-slate-800">
         <div>
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest mb-2 flex items-center gap-2">
             <span className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg">
               <Clock className="w-4 h-4 text-indigo-600" />
             </span>
             Active Field Shifts
           </h3>
-          <p className="text-xs text-slate-500 font-medium mb-4">
+          <p className="text-xs text-slate-700 font-semibold mb-4">
             Track volunteer assignments, native languages, and real-time statuses across the stadium sectors.
           </p>
 
@@ -190,7 +192,8 @@ export const VolunteerHub: React.FC<VolunteerHubProps> = ({
                   <select
                     value={shift.status}
                     onChange={(e) => onUpdateShiftStatus(shift.id, e.target.value as any)}
-                    className={`text-[9px] font-bold uppercase tracking-wide p-1 rounded-lg border focus:outline-none cursor-pointer ${
+                    aria-label={`Update shift status for ${shift.volunteerName}`}
+                    className={`text-[9px] font-bold uppercase tracking-wide p-1 rounded-lg border focus:outline-none focus:ring-2 focus:ring-indigo-600 cursor-pointer ${
                       shift.status === "on-duty"
                         ? "bg-emerald-50 border-emerald-200 text-emerald-700 font-bold"
                         : shift.status === "resting"

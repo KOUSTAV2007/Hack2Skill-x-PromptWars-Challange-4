@@ -66,13 +66,41 @@ async function startServer() {
     crossOriginResourcePolicy: { policy: "cross-origin" }
   }));
 
+  // Lightweight in-memory rate limiter to protect GenAI resources against spam/DOS
+  const ipRequestCounts = new Map<string, { count: number; lastReset: number }>();
+  const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
+  const MAX_REQUESTS_PER_WINDOW = 45; // 45 requests per minute
+
+  const apiRateLimiter = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const ip = (req.headers["x-forwarded-for"] as string) || req.ip || req.socket.remoteAddress || "unknown_ip";
+    const now = Date.now();
+    const record = ipRequestCounts.get(ip);
+
+    if (!record) {
+      ipRequestCounts.set(ip, { count: 1, lastReset: now });
+      next();
+    } else {
+      if (now - record.lastReset > RATE_LIMIT_WINDOW_MS) {
+        record.count = 1;
+        record.lastReset = now;
+        next();
+      } else {
+        record.count++;
+        if (record.count > MAX_REQUESTS_PER_WINDOW) {
+          return res.status(429).json({ error: "Too many requests. Please try again later." });
+        }
+        next();
+      }
+    }
+  };
+
   // API Routes
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok" });
   });
 
   // 1. Operational Dispatch Endpoint
-  app.post("/api/ops/dispatch", async (req, res) => {
+  app.post("/api/ops/dispatch", apiRateLimiter, async (req, res) => {
     try {
       const { description, context } = req.body;
       if (!description || typeof description !== "string") {
@@ -145,15 +173,15 @@ You must respond ONLY with a raw JSON object matching this schema, do not includ
 
       const resultText = response.text || "{}";
       res.json(JSON.parse(resultText.trim()));
-    } catch (error: any) {
-      console.error("Error in dispatch API:", error);
+    } catch (error: unknown) {
+      console.error("Error in dispatch API:", error instanceof Error ? error.message : error);
       // Clean security response - never leak full stack trace to frontend
       res.status(500).json({ error: "Failed to process dispatch protocol securely" });
     }
   });
 
   // 2. Multilingual Concierge / Guide Endpoint
-  app.post("/api/guide/ask", async (req, res) => {
+  app.post("/api/guide/ask", apiRateLimiter, async (req, res) => {
     try {
       const { question, language, fanLocation } = req.body;
       if (!question || typeof question !== "string") {
@@ -188,14 +216,14 @@ Keep your tone enthusiastic about soccer/football and the World Cup tournament, 
       });
 
       res.json({ answer: response.text });
-    } catch (error: any) {
-      console.error("Error in guide API:", error);
+    } catch (error: unknown) {
+      console.error("Error in guide API:", error instanceof Error ? error.message : error);
       res.status(500).json({ error: "Failed to answer stadium query securely" });
     }
   });
 
   // 3. Eco-Fan Recycling Classifier Endpoint
-  app.post("/api/eco/classify", async (req, res) => {
+  app.post("/api/eco/classify", apiRateLimiter, async (req, res) => {
     try {
       const { itemName } = req.body;
       if (!itemName || typeof itemName !== "string") {
@@ -252,8 +280,8 @@ You must respond ONLY with a raw JSON object matching this schema, do not includ
 
       const resultText = response.text || "{}";
       res.json(JSON.parse(resultText.trim()));
-    } catch (error: any) {
-      console.error("Error in eco API:", error);
+    } catch (error: unknown) {
+      console.error("Error in eco API:", error instanceof Error ? error.message : error);
       res.status(500).json({ error: "Failed to classify eco item securely" });
     }
   });

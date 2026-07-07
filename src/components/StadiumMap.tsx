@@ -92,8 +92,17 @@ export const StadiumMap: React.FC<StadiumMapProps> = ({
       return (
         <g 
           key={sec.id} 
-          className="cursor-pointer group"
+          className="cursor-pointer group focus:outline-none focus:ring-2 focus:ring-blue-500"
+          role="button"
+          tabIndex={0}
+          aria-label={`${sec.name}: ${load}% Capacity. Click to view info.`}
           onClick={() => onSectorClick && onSectorClick(sec.name)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onSectorClick && onSectorClick(sec.name);
+            }
+          }}
         >
           <path
             d={sec.d}
@@ -280,8 +289,17 @@ export const StadiumMap: React.FC<StadiumMapProps> = ({
               <g 
                 key={node.id} 
                 transform={`translate(${node.x}, ${node.y})`}
-                className="cursor-pointer group transition-transform duration-300 hover:scale-125"
+                className="cursor-pointer group transition-transform duration-300 hover:scale-125 focus:outline-none focus:scale-125"
+                role="button"
+                tabIndex={0}
+                aria-label={`${node.name}. Type: ${node.type}. Level ${node.level}. ${isStart ? 'Selected start.' : ''} ${isEnd ? 'Selected end.' : ''} Click to select in routing.`}
                 onClick={() => onSelectNode(node.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onSelectNode(node.id);
+                  }
+                }}
               >
                 {/* Ping animation for alerts or start/end nodes */}
                 {(hasAlert || isStart || isEnd) && (

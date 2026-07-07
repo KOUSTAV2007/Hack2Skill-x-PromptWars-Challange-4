@@ -234,7 +234,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
               </div>
 
               {/* Step By Step Directions */}
-              <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+              <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-2">
                 Turn-by-Turn Navigation
               </h4>
               <ul className="space-y-2">
@@ -258,13 +258,13 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
 
         {/* Section 2: AI Multilingual Guide (Concierge) */}
         <div className="bg-white border border-slate-200 p-6 rounded-3xl flex-1 flex flex-col">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest mb-2 flex items-center gap-2">
             <span className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
               <Sparkles className="w-4 h-4" />
             </span>
             AI Multilingual Concierge
           </h3>
-          <p className="text-xs text-slate-500 font-medium mb-4">
+          <p className="text-xs text-slate-700 font-semibold mb-4">
             Our World Cup concierge answers transit, seating, safety, and stadium service questions in your language.
           </p>
 
@@ -345,7 +345,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
       <div className="bg-white border border-slate-200 p-6 rounded-3xl flex flex-col justify-between shadow-sm text-slate-800">
         <div>
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+            <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest flex items-center gap-2">
               <span className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
                 <Leaf className="w-4 h-4" />
               </span>
@@ -354,7 +354,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
 
             {/* Total score panel */}
             <div className="text-right">
-              <span className="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">
+              <span className="text-[10px] font-bold text-slate-600 block uppercase tracking-wider">
                 Green Pass Points
               </span>
               <span className="text-xl font-black text-emerald-600 tracking-tight">
@@ -363,7 +363,7 @@ export const FanConcierge: React.FC<FanConciergeProps> = ({
             </div>
           </div>
 
-          <p className="text-xs text-slate-500 font-medium mb-5">
+          <p className="text-xs text-slate-700 font-semibold mb-5">
             Participate in the FIFA 2026 Sustainability Initiative. Scan or enter any food cup, program guide, or can to classify it correctly and earn reward perks.
           </p>
 

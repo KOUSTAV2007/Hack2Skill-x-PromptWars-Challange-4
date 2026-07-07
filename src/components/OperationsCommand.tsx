@@ -181,17 +181,17 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
         {/* Dynamic Simulation Controls (Presets) */}
         <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest mb-2 flex items-center gap-2">
             <span className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg">
               <Activity className="w-4 h-4 text-emerald-600" />
             </span>
             Crowd Simulation Presets
           </h3>
-          <p className="text-xs text-slate-500 font-medium mb-4">
+          <p className="text-xs text-slate-700 font-semibold mb-4">
             Test and stress-test operations with stadium presets to view simulated wait times and evac thresholds.
           </p>
 
-          <div className="grid grid-cols-1 gap-2">
+          <div role="group" aria-label="Simulation Preset Triggers" className="grid grid-cols-1 gap-2">
             <button
               onClick={() => onTriggerPreset("kickoff")}
               className="flex items-center justify-between bg-slate-55 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 rounded-2xl p-3.5 text-left transition cursor-pointer"
@@ -232,13 +232,13 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
       {/* COLUMN 2: ACTIVE ALERTS FEED LIST */}
       <div className="bg-white border border-slate-200 p-6 rounded-3xl shadow-sm flex flex-col justify-between lg:col-span-1 text-slate-800">
         <div>
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-slate-650 uppercase tracking-widest mb-3 flex items-center gap-2">
             <span className="p-1.5 bg-blue-50 text-blue-600 rounded-lg">
               <Users className="w-4 h-4 text-blue-600" />
             </span>
             Command Center Alerts Feed
           </h3>
-          <p className="text-xs text-slate-500 font-medium mb-4">
+          <p className="text-xs text-slate-700 font-semibold mb-4">
             Manage live reports. Click any alert card below to load the Gemini SOP checklists.
           </p>
 
@@ -308,7 +308,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
         {/* Live Gate Entry Managers (At the bottom of feed list) */}
         <div className="border-t border-slate-100 pt-4 mt-4">
-          <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+          <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-2">
             Entrances & Wait Times
           </h4>
           <div className="grid grid-cols-2 gap-2">
@@ -319,7 +319,8 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
                   <select
                     value={gate.status}
                     onChange={(e) => onUpdateGate(gate.id, { status: e.target.value as any })}
-                    className="text-[9px] bg-white border border-slate-200 text-slate-800 rounded-lg focus:outline-none p-1 font-bold shadow-sm"
+                    aria-label={`Update entrance gate status for ${gate.name}`}
+                    className="text-[9px] bg-white border border-slate-200 text-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-650 p-1 font-bold shadow-sm"
                   >
                     <option value="open">Open</option>
                     <option value="closed">Closed</option>
@@ -357,7 +358,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
             {/* Standard Operating Procedures Steps list */}
             <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 mb-4 shadow-inner">
-              <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 <Check className="w-3.5 h-3.5 text-blue-500" />
                 Staff SOP Steps
               </h4>
@@ -381,7 +382,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
             {/* Volunteer Coordination Briefing */}
             <div className="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-4 mb-4 shadow-inner">
-              <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <Users className="w-3.5 h-3.5 text-indigo-500" />
                 Volunteer Field Briefing
               </h4>
@@ -392,7 +393,7 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
             {/* PA Announcement Script */}
             <div className="bg-amber-50/50 border border-amber-100 rounded-2xl p-4 shadow-inner">
-              <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+              <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                 <Volume2 className="w-3.5 h-3.5 text-amber-600" />
                 Broadcast Announcement Script
               </h4>
@@ -410,37 +411,41 @@ export const OperationsCommand: React.FC<OperationsCommandProps> = ({
 
         {/* Dynamic Standing Heatmap Quick adjuster for Seating */}
         <div className="border-t border-slate-100 pt-4 mt-6">
-          <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">
+          <h4 className="text-[10px] font-bold text-slate-650 uppercase tracking-wider mb-3">
             Stand Load Factors Heatmap (Click on Map to adjust)
           </h4>
-          <div className="grid grid-cols-2 gap-3 text-[10px] font-mono text-slate-500 font-bold">
+          <div className="grid grid-cols-2 gap-3 text-[10px] font-mono text-slate-600 font-bold">
             <div className="flex flex-col">
-              <span>North Stand: {sectorLoads.north}%</span>
+              <label htmlFor="north-stand-slider" className="font-semibold text-slate-700 block mb-1">North Stand: {sectorLoads.north}%</label>
               <input 
+                id="north-stand-slider"
                 type="range" min="10" max="100" value={sectorLoads.north}
                 onChange={(e) => onUpdateSectorLoad("north", parseInt(e.target.value))}
                 className="w-full accent-blue-600 cursor-pointer"
               />
             </div>
             <div className="flex flex-col">
-              <span>East Stand: {sectorLoads.east}%</span>
+              <label htmlFor="east-stand-slider" className="font-semibold text-slate-700 block mb-1">East Stand: {sectorLoads.east}%</label>
               <input 
+                id="east-stand-slider"
                 type="range" min="10" max="100" value={sectorLoads.east}
                 onChange={(e) => onUpdateSectorLoad("east", parseInt(e.target.value))}
                 className="w-full accent-blue-600 cursor-pointer"
               />
             </div>
             <div className="flex flex-col">
-              <span>South Stand: {sectorLoads.south}%</span>
+              <label htmlFor="south-stand-slider" className="font-semibold text-slate-700 block mb-1">South Stand: {sectorLoads.south}%</label>
               <input 
+                id="south-stand-slider"
                 type="range" min="10" max="100" value={sectorLoads.south}
                 onChange={(e) => onUpdateSectorLoad("south", parseInt(e.target.value))}
                 className="w-full accent-blue-600 cursor-pointer"
               />
             </div>
             <div className="flex flex-col">
-              <span>West Stand: {sectorLoads.west}%</span>
+              <label htmlFor="west-stand-slider" className="font-semibold text-slate-700 block mb-1">West Stand: {sectorLoads.west}%</label>
               <input 
+                id="west-stand-slider"
                 type="range" min="10" max="100" value={sectorLoads.west}
                 onChange={(e) => onUpdateSectorLoad("west", parseInt(e.target.value))}
                 className="w-full accent-blue-600 cursor-pointer"

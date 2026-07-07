@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { 
   Incident, Gate, VolunteerShift, LANGUAGES, 
   STADIUM_NODES, NavNode 
@@ -160,10 +160,23 @@ export default function App() {
     }
   };
 
-  const averageWait = Math.round(gates.reduce((acc, g) => acc + g.estimatedWaitTime, 0) / gates.length);
-  const activeAlertsCount = incidents.filter(i => i.status === "active").length;
-  const peakSectorLoad = Math.max(...Object.values(sectorLoads).map(val => Number(val) || 0));
-  const activeStaffCount = shifts.filter(s => s.status === "on-duty").length;
+  const averageWait = useMemo(() => {
+    if (gates.length === 0) return 0;
+    return Math.round(gates.reduce((acc, g) => acc + g.estimatedWaitTime, 0) / gates.length);
+  }, [gates]);
+
+  const activeAlertsCount = useMemo(() => {
+    return incidents.filter(i => i.status === "active").length;
+  }, [incidents]);
+
+  const peakSectorLoad = useMemo(() => {
+    const values = Object.values(sectorLoads).map(val => Number(val) || 0);
+    return values.length > 0 ? Math.max(...values) : 0;
+  }, [sectorLoads]);
+
+  const activeStaffCount = useMemo(() => {
+    return shifts.filter(s => s.status === "on-duty").length;
+  }, [shifts]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
