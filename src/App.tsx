@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { 
   Incident, Gate, VolunteerShift, LANGUAGES, 
   STADIUM_NODES, NavNode 
@@ -88,36 +88,38 @@ export default function App() {
   ]);
 
   // Add Incident handler
-  const handleAddIncident = (newIncident: Incident) => {
+  const handleAddIncident = useCallback((newIncident: Incident) => {
     setIncidents(prev => [newIncident, ...prev]);
-  };
+  }, []);
 
   // Resolve Incident handler
-  const handleResolveIncident = (id: string) => {
+  const handleResolveIncident = useCallback((id: string) => {
     setIncidents(prev => prev.map(inc => 
       inc.id === id ? { ...inc, status: "resolved" as const } : inc
     ));
-  };
+  }, []);
 
   // Update Gate Status handler
-  const handleUpdateGate = (gateId: string, updates: Partial<Gate>) => {
+  const handleUpdateGate = useCallback((gateId: string, updates: Partial<Gate>) => {
     setGates(prev => prev.map(g => 
       g.id === gateId ? { ...g, ...updates } : g
     ));
-  };
+  }, []);
 
   // Sector click handler to tweak capacity or show alerts
-  const handleSectorClick = (sectorName: string) => {
+  const handleSectorClick = useCallback((sectorName: string) => {
     const id = sectorName.toLowerCase().split(" ")[0]; // north, east, south, west
-    if (sectorLoads[id] !== undefined) {
-      // Rotate loads for simulation fun!
-      const nextLoad = sectorLoads[id] >= 90 ? 30 : sectorLoads[id] + 20;
-      setSectorLoads(prev => ({ ...prev, [id]: nextLoad }));
-    }
-  };
+    setSectorLoads(prev => {
+      if (prev[id] !== undefined) {
+        const nextLoad = prev[id] >= 90 ? 30 : prev[id] + 20;
+        return { ...prev, [id]: nextLoad };
+      }
+      return prev;
+    });
+  }, []);
 
   // Preset Trigger Simulator handler
-  const handleTriggerPreset = (preset: "kickoff" | "exodus" | "clear") => {
+  const handleTriggerPreset = useCallback((preset: "kickoff" | "exodus" | "clear") => {
     if (preset === "kickoff") {
       setSectorLoads({ north: 85, east: 90, south: 75, west: 80 });
       setGates([
@@ -143,14 +145,14 @@ export default function App() {
         { id: "gate-d", name: "Gate D (North Deck)", status: "open", loadFactor: 50, estimatedWaitTime: 6 }
       ]);
     }
-  };
+  }, []);
 
-  const handleUpdateShiftStatus = (id: string, status: VolunteerShift["status"]) => {
+  const handleUpdateShiftStatus = useCallback((id: string, status: VolunteerShift["status"]) => {
     setShifts(prev => prev.map(s => s.id === id ? { ...s, status } : s));
-  };
+  }, []);
 
   // Node Click Wayfinding Bridge
-  const handleSelectNodeFromMap = (nodeId: string) => {
+  const handleSelectNodeFromMap = useCallback((nodeId: string) => {
     // If start is empty, fill start. If start is filled, fill end.
     if (!selectedStartNodeId || (selectedStartNodeId && selectedEndNodeId)) {
       setSelectedStartNodeId(nodeId);
@@ -158,7 +160,7 @@ export default function App() {
     } else {
       setSelectedEndNodeId(nodeId);
     }
-  };
+  }, [selectedStartNodeId, selectedEndNodeId]);
 
   const averageWait = useMemo(() => {
     if (gates.length === 0) return 0;
